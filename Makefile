@@ -8,7 +8,7 @@
 
 SRC	=	$(wildcard *.c)
 
-BIN_NAME	=	a.out
+BIN_NAME	=	my_ls
 
 all:	compile_lib compile
 
