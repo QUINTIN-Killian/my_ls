@@ -9,7 +9,7 @@
 #include "include/my.h"
 #include "include/my_ls.h"
 
-int print_multiple_files(int ac, char **av)
+int print_multiple_files(int ac, char **av, struct flags_list *flags)
 {
     int nb_file_path = get_nb_file_path(ac, av);
 
@@ -17,13 +17,13 @@ int print_multiple_files(int ac, char **av)
         if (!is_flag(av[i]) && nb_file_path == 1) {
             my_putstr(av[i]);
             my_putstr(":\n");
-            print_files(av[i]);
+            print_files(av[i], flags);
             return 0;
         }
         if (!is_flag(av[i]) && nb_file_path > 1) {
             my_putstr(av[i]);
             my_putstr(":\n");
-            print_files(av[i]);
+            print_files(av[i], flags);
             my_putstr("\n\n");
             nb_file_path--;
         }

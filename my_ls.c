@@ -20,11 +20,10 @@ int initialize_struct(struct flags_list *flags)
     return 0;
 }
 
-int print_files_aux(DIR *fd, struct dirent *my_dir)
+int print_files_aux(DIR *fd, struct dirent *my_dir, struct flags_list *flags)
 {
     while (my_dir != NULL) {
-        if (my_dir->d_name[0] == '.' ||
-        my_dir->d_name[my_strlen(my_dir->d_name) - 1] == '~') {
+        if (my_dir->d_name[0] == '.' && flags->a == 0) {
             my_dir = readdir(fd);
             continue;
         }
@@ -36,7 +35,7 @@ int print_files_aux(DIR *fd, struct dirent *my_dir)
     return 0;
 }
 
-int print_files(char *file_path)
+int print_files(char *file_path, struct flags_list *flags)
 {
     DIR *fd;
     struct dirent *my_dir;
@@ -47,7 +46,7 @@ int print_files(char *file_path)
         return 84;
     }
     my_dir = readdir(fd);
-    print_files_aux(fd, my_dir);
+    print_files_aux(fd, my_dir, flags);
     closedir(fd);
     return 0;
 }
@@ -58,15 +57,11 @@ int main(int ac, char **av)
 
     initialize_struct(&flags);
     get_flags(&flags, ac, av);
-    if (ac < 1)
-        return 84;
-    if (get_nb_flags(ac, av) == 0) {
-        if (no_file_path(ac, av))
-            return print_files(".");
-        if (get_nb_file_path(ac, av) == 1)
-            print_files(av[get_ind_file_path(1, ac, av)]);
-        if (get_nb_file_path(ac, av) > 1)
-            print_multiple_files(ac, av);
-    }
+    if (get_nb_file_path(ac, av) == 0)
+        print_files(".", &flags);
+    if (get_nb_file_path(ac, av) == 1)
+        print_files(av[get_ind_file_path(1, ac, av)], &flags);
+    if (get_nb_file_path(ac, av) > 1)
+        print_multiple_files(ac, av, &flags);
     return 0;
 }

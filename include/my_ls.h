@@ -24,7 +24,7 @@ struct flags_list {
 };
 
 //my_ls.c :
-int print_files(char *file_path);
+int print_files(char *file_path, struct flags_list *flags);
 
 //aux.c :
 int is_flag(char *str);
@@ -37,6 +37,6 @@ int no_file_path(int ac, char **av);
 int get_flags(struct flags_list *flags, int ac, char **av);
 
 //print_multiple_files.c :
-int print_multiple_files(int ac, char **av);
+int print_multiple_files(int ac, char **av, struct flags_list *flags);
 
 #endif
