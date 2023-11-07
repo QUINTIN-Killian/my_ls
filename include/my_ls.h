@@ -14,5 +14,29 @@
 #ifndef MY_LS_H_
     #define MY_LS_H_
 
+struct flags_list {
+    int a;
+    int l;
+    int r_maj;
+    int d;
+    int r;
+    int t;
+};
+
+//my_ls.c :
+int print_files(char *file_path);
+
+//aux.c :
+int is_flag(char *str);
+int get_nb_flags(int ac, char **av);
+int get_ind_file_path(int ind, int ac, char **av);
+int get_nb_file_path(int ac, char **av);
+int no_file_path(int ac, char **av);
+
+//flags.c :
+int get_flags(struct flags_list *flags, int ac, char **av);
+
+//print_multiple_files.c :
+int print_multiple_files(int ac, char **av);
 
 #endif
