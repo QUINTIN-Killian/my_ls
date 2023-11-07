@@ -39,4 +39,7 @@ int get_flags(struct flags_list *flags, int ac, char **av);
 //print_multiple_files.c :
 int print_multiple_files(int ac, char **av, struct flags_list *flags);
 
+//printing.c :
+void printing(char *str);
+
 #endif
