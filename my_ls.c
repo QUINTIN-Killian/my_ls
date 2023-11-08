@@ -20,7 +20,8 @@ int initialize_struct(struct flags_list *flags)
     return 0;
 }
 
-int print_files_aux(DIR *fd, struct dirent *my_dir, struct flags_list *flags)
+int print_files_aux(DIR *fd, struct dirent *my_dir,
+    struct flags_list *flags, char *file_path)
 {
     while (my_dir != NULL) {
         if (my_dir->d_name[0] == '.' && flags->a == 0) {
@@ -46,7 +47,7 @@ int print_files(char *file_path, struct flags_list *flags)
         return 84;
     }
     my_dir = readdir(fd);
-    print_files_aux(fd, my_dir, flags);
+    print_files_aux(fd, my_dir, flags, file_path);
     closedir(fd);
     return 0;
 }
@@ -54,14 +55,21 @@ int print_files(char *file_path, struct flags_list *flags)
 int main(int ac, char **av)
 {
     struct flags_list flags;
+    int error = error_handling(ac, av);
 
     initialize_struct(&flags);
     get_flags(&flags, ac, av);
+    if (flags.d == 1)
+        flag_d(ac, av);
+    if (error == 84)
+        return 84;
     if (get_nb_file_path(ac, av) == 0)
         print_files(".", &flags);
     if (get_nb_file_path(ac, av) == 1)
         print_files(av[get_ind_file_path(1, ac, av)], &flags);
     if (get_nb_file_path(ac, av) > 1)
         print_multiple_files(ac, av, &flags);
+    if (error == 84)
+        return 84;
     return 0;
 }

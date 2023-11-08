@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #ifndef FUNCTIONS_H_
     #define FUNCTIONS_H_
@@ -51,5 +52,6 @@ char **my_str_to_word_array(char const *str);
 int my_strlen_array(char **array);
 int my_intlen(int n);
 int convert_str_in_int(char *str);
+char *concat_str(int nb_elt, ...);
 
 #endif
