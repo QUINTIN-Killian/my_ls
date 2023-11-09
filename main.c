@@ -34,7 +34,9 @@ int main(int ac, char **av)
     error_files = get_files(&flags, ac, av);
     if (flags.d == 1)
         flag_d(&flags);
-    if (flags.d == 0)
+    if (flags.r == 1)
+        flag_r(&flags);
+    if (flags.d == 0 && flags.r == 0)
         classic_ls(&flags);
     if (error_flags == 84 || error_files == 84)
         return 84;

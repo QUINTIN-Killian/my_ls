@@ -39,10 +39,6 @@ int error_opening(char *file_path, struct flags_list *flags, int i);
 
 //aux.c :
 int is_flag(char *str);
-//int get_nb_flags(int ac, char **av);
-//int get_ind_file_path(int ind, int ac, char **av);
-//int get_nb_file_path(int ac, char **av);
-//int no_file_path(int ac, char **av);
 
 //get_flags.c :
 int get_flags(struct flags_list *flags, int ac, char **av);
@@ -52,6 +48,9 @@ int get_files(struct flags_list *flags, int ac, char **av);
 
 //flag_d.c :
 int flag_d(struct flags_list *flags);
+
+//flag_r.c :
+int flag_r(struct flags_list *flags);
 
 //printing.c :
 void printing(struct dirent *my_dir, char *file_path);
