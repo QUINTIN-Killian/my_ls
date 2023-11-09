@@ -19,6 +19,8 @@ int is_correct_flag(char flag)
 
 int add_flag_in_struct(struct flags_list *flags, char flag)
 {
+    if (!is_correct_flag(flag))
+        return 84;
     if (flag == 'a')
             flags->a = 1;
     if (flag == 'l')
@@ -36,16 +38,24 @@ int add_flag_in_struct(struct flags_list *flags, char flag)
 
 int cpy_flags(struct flags_list *flags, char *str)
 {
-    for (int i = 0; i < my_strlen(str); i++) {
-        add_flag_in_struct(flags, str[i]);
+    int error = 0;
+
+    for (int i = 1; i < my_strlen(str); i++) {
+        error = add_flag_in_struct(flags, str[i]);
+        if (error == 84)
+            return 84;
     }
     return 0;
 }
 
 int get_flags(struct flags_list *flags, int ac, char **av)
 {
+    int error = 0;
+
     for (int i = 1; i < ac; i++) {
         if (is_flag(av[i]))
-            cpy_flags(flags, av[i]);
+            error = cpy_flags(flags, av[i]);
+        if (error == 84)
+            return 84;
     }
 }

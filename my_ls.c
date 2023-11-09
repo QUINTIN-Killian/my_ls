@@ -5,23 +5,30 @@
 ** Works the same as ls.
 ** my_ls
 */
+/*
+NOTES ET OBJECTIFS :
+    - recréer affichage de plusieurs dir
+    - demander Loïc son printing en couleur
+    - error handling si le file name ou dir name n'existe pas
+*/
 
 #include "include/my.h"
 #include "include/my_ls.h"
 
-int initialize_struct(struct flags_list *flags)
+int print_files(struct flags_list *flags)
 {
-    flags->a = 0;
-    flags->l = 0;
-    flags->r_maj = 0;
-    flags->d = 0;
-    flags->r = 0;
-    flags->t = 0;
+    for (int i = 0; i < flags->file_name_ind; i++) {
+        my_putstr(flags->file_name[i]);
+        if (i < flags->file_name_ind - 1)
+            my_putstr("  ");
+        if (i == flags->file_name_ind - 1 && flags->dir_name_ind > 0)
+            my_putstr("\n\n");
+    }
     return 0;
 }
 
-int print_files_aux(DIR *fd, struct dirent *my_dir,
-    struct flags_list *flags, char *file_path)
+int print_dir_aux(struct flags_list *flags, DIR *fd,
+    struct dirent *my_dir)
 {
     while (my_dir != NULL) {
         if (my_dir->d_name[0] == '.' && flags->a == 0) {
@@ -36,40 +43,30 @@ int print_files_aux(DIR *fd, struct dirent *my_dir,
     return 0;
 }
 
-int print_files(char *file_path, struct flags_list *flags)
+int print_dir(struct flags_list *flags, DIR *fd,
+    struct dirent *my_dir, int i)
 {
-    DIR *fd;
-    struct dirent *my_dir;
-
-    fd = opendir(file_path);
-    if (fd == NULL) {
-        write(2, "File not found", 14);
-        return 84;
+    fd = opendir(flags->dir_name[i]);
+    if (flags->dir_name_ind + flags->file_name_ind > 1) {
+        my_putstr(flags->dir_name[i]);
+        my_putstr(":\n");
     }
     my_dir = readdir(fd);
-    print_files_aux(fd, my_dir, flags, file_path);
+    print_dir_aux(flags, fd, my_dir);
+    if (flags->dir_name_ind + flags->file_name_ind > 1 &&
+    i < flags->dir_name_ind - 1)
+        my_putstr("\n\n");
     closedir(fd);
     return 0;
 }
 
-int main(int ac, char **av)
+int classic_ls(struct flags_list *flags)
 {
-    struct flags_list flags;
-    int error = error_handling(ac, av);
+    DIR *fd;
+    struct dirent *my_dir;
 
-    initialize_struct(&flags);
-    get_flags(&flags, ac, av);
-    if (flags.d == 1)
-        flag_d(ac, av);
-    if (error == 84)
-        return 84;
-    if (get_nb_file_path(ac, av) == 0)
-        print_files(".", &flags);
-    if (get_nb_file_path(ac, av) == 1)
-        print_files(av[get_ind_file_path(1, ac, av)], &flags);
-    if (get_nb_file_path(ac, av) > 1)
-        print_multiple_files(ac, av, &flags);
-    if (error == 84)
-        return 84;
+    print_files(flags);
+    for (int i = 0; i < flags->dir_name_ind; i++)
+        print_dir(flags, fd, my_dir, i);
     return 0;
 }

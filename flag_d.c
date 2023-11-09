@@ -9,30 +9,17 @@
 #include "include/my.h"
 #include "include/my_ls.h"
 
-int my_print(char *str, int nb_file_path)
+int flag_d(struct flags_list *flags)
 {
-    my_putstr(str);
-    if (nb_file_path > 0)
-        my_putstr("  ");
-}
-
-int flag_d(int ac, char **av)
-{
-    int nb_file_path = get_nb_file_path(ac, av);
-    struct stat lst;
-
-    if (nb_file_path == 0) {
-        my_putstr(".");
-        return 0;
+    for (int i = 0; i < flags->file_name_ind; i++) {
+        my_putstr(flags->file_name[i]);
+        if (i < flags->file_name_ind - 1 || flags->dir_name_ind > 0)
+            my_putstr("  ");
     }
-    for (int i = 1; i < ac; i++)
-        if (!is_flag(av[i]) && lstat(av[i], &lst) != 0)
-            nb_file_path--;
-    for (int i = 1; i < ac; i++) {
-        if (!is_flag(av[i]) && lstat(av[i], &lst) == 0) {
-            nb_file_path--;
-            my_print(av[i], nb_file_path);
-        }
+    for (int i = 0; i < flags->dir_name_ind; i++) {
+        my_putstr(flags->dir_name[i]);
+        if (i < flags->dir_name_ind - 1)
+            my_putstr("  ");
     }
     return 0;
 }
