@@ -28,13 +28,13 @@ int get_files(struct flags_list *flags, int ac, char **av)
     struct stat lst;
     int error = 0;
 
-    flags->total = ac - 1;
     for (int i = 1; i < ac; i++) {
         if (opendir(av[i]) == NULL &&
         lstat(av[i], &lst) != 0 && av[i][0] != '-')
             error = error_opening(av[i], flags, i);
         get_files_aux(flags, i, ac, av);
     }
+    flags->total = flags->file_name_ind + flags->dir_name_ind;
     if (flags->total == 0) {
         flags->dir_name[flags->dir_name_ind] = ".";
         flags->dir_name_ind = flags->dir_name_ind + 1;

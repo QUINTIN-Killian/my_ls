@@ -45,7 +45,7 @@ int print_rev_files(struct flags_list *flags)
         if (i > 0)
             my_putstr("  ");
     }
-    if (flags->dir_name_ind > 0)
+    if (flags->dir_name_ind > 0 && flags->file_name_ind > 0)
         my_putstr("\n\n");
 }
 
