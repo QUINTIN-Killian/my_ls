@@ -21,5 +21,5 @@ int flag_d(struct flags_list *flags)
         if (i < flags->dir_name_ind - 1)
             my_putstr("  ");
     }
-    return 0;
+    return flags->error;
 }

@@ -76,7 +76,7 @@ void print_under_dir(struct flags_list *flags, int ind)
 int print_rev_dir(struct flags_list *flags)
 {
     for (int i = flags->dir_name_ind - 1; i >= 0; i--) {
-        if (flags->dir_name_ind + flags->file_name_ind > 1) {
+        if (flags->total > 1) {
             my_putstr(flags->dir_name[i]);
             my_putstr(":\n");
         }
@@ -91,4 +91,5 @@ int flag_r(struct flags_list *flags)
 {
     print_rev_files(flags);
     print_rev_dir(flags);
+    return flags->error;
 }

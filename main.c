@@ -20,25 +20,24 @@ int initialize_struct(struct flags_list *flags)
     flags->file_name_ind = 0;
     flags->dir_name_ind = 0;
     flags->total = 0;
+    flags->error = 0;
     return 0;
 }
 
 int main(int ac, char **av)
 {
     struct flags_list flags;
-    int error_flags = 0;
-    int error_files = 0;
 
     initialize_struct(&flags);
-    error_flags = get_flags(&flags, ac, av);
-    error_files = get_files(&flags, ac, av);
+    get_flags(&flags, ac, av);
+    get_files(&flags, ac, av);
+    if (flags.l == 1)
+        return flag_l(&flags);
     if (flags.d == 1)
-        flag_d(&flags);
+        return flag_d(&flags);
     if (flags.r == 1)
-        flag_r(&flags);
-    if (flags.d == 0 && flags.r == 0)
+        return flag_r(&flags);
+    if (flags.d == 0 && flags.r == 0 && flags.l == 0)
         classic_ls(&flags);
-    if (error_flags == 84 || error_files == 84)
-        return 84;
-    return 0;
+    return flags.error;
 }

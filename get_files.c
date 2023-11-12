@@ -23,21 +23,23 @@ int get_files_aux(struct flags_list *flags, int i, int ac, char **av)
     }
 }
 
-int get_files(struct flags_list *flags, int ac, char **av)
+void get_files(struct flags_list *flags, int ac, char **av)
 {
     struct stat lst;
-    int error = 0;
+    int nb_other = get_nb_other(ac, av);
 
     for (int i = 1; i < ac; i++) {
         if (opendir(av[i]) == NULL &&
-        lstat(av[i], &lst) != 0 && av[i][0] != '-')
-            error = error_opening(av[i], flags, i);
+        lstat(av[i], &lst) != 0 && av[i][0] != '-') {
+            error_opening(av[i], &nb_other);
+            flags->total++;
+            flags->error = 84;
+        }
         get_files_aux(flags, i, ac, av);
     }
-    flags->total = flags->file_name_ind + flags->dir_name_ind;
+    flags->total = flags->total + flags->file_name_ind + flags->dir_name_ind;
     if (flags->total == 0) {
         flags->dir_name[flags->dir_name_ind] = ".";
         flags->dir_name_ind = flags->dir_name_ind + 1;
     }
-    return error;
 }

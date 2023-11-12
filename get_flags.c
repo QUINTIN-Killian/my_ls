@@ -48,7 +48,7 @@ int cpy_flags(struct flags_list *flags, char *str)
     return 0;
 }
 
-int get_flags(struct flags_list *flags, int ac, char **av)
+void get_flags(struct flags_list *flags, int ac, char **av)
 {
     int error = 0;
 
@@ -56,6 +56,6 @@ int get_flags(struct flags_list *flags, int ac, char **av)
         if (is_flag(av[i]))
             error = cpy_flags(flags, av[i]);
         if (error == 84)
-            return 84;
+            flags->error = error;
     }
 }

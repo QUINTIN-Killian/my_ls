@@ -47,7 +47,7 @@ int print_dir(struct flags_list *flags, DIR *fd,
     struct dirent *my_dir, int i)
 {
     fd = opendir(flags->dir_name[i]);
-    if (flags->dir_name_ind + flags->file_name_ind > 1) {
+    if (flags->total > 1) {
         my_putstr(flags->dir_name[i]);
         my_putstr(":\n");
     }

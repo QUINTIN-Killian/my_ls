@@ -10,6 +10,9 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <pwd.h>
+#include <time.h>
+#include <errno.h>
 
 #ifndef MY_LS_H_
     #define MY_LS_H_
@@ -26,6 +29,7 @@ struct flags_list {
     char *dir_name[4000];
     int dir_name_ind;
     int total;
+    int error;
 };
 
 //my_ls.c :
@@ -35,22 +39,33 @@ int print_dir(struct flags_list *flags, DIR *fd,
     struct dirent *my_dir, int i);
 
 //error_handling.c :
-int error_opening(char *file_path, struct flags_list *flags, int i);
+int error_opening(char *file_path, int *nb_other);
 
 //aux.c :
+int get_nb_other(int ac, char **av);
 int is_flag(char *str);
 
 //get_flags.c :
-int get_flags(struct flags_list *flags, int ac, char **av);
+void get_flags(struct flags_list *flags, int ac, char **av);
 
 //get_files.c :
-int get_files(struct flags_list *flags, int ac, char **av);
+void get_files(struct flags_list *flags, int ac, char **av);
 
 //flag_d.c :
 int flag_d(struct flags_list *flags);
 
 //flag_r.c :
 int flag_r(struct flags_list *flags);
+
+//flag_l.c :
+int flag_l(struct flags_list *flags);
+
+//print_total_flag_l.c :
+int print_total_flag_l(char *file_path);
+
+//printing_flag_l.c :
+void print_permissions(struct stat *lst);
+void print_file_name(char *str);
 
 //printing.c :
 void printing(struct dirent *my_dir, char *file_path);
