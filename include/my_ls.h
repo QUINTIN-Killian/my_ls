@@ -28,15 +28,16 @@ struct flags_list {
     int file_name_ind;
     char *dir_name[4000];
     int dir_name_ind;
+    char **under_dir_name;
+    int under_dir_name_ind;
     int total;
     int error;
 };
 
 //my_ls.c :
-int classic_ls(struct flags_list *flags);
-int print_files(struct flags_list *flags);
-int print_dir(struct flags_list *flags, DIR *fd,
-    struct dirent *my_dir, int i);
+int my_ls(struct flags_list *flags);
+int print_files(struct flags_list *flags, int ind);
+int print_dir(struct flags_list *flags, int ind);
 
 //error_handling.c :
 int error_opening(char *file_path, int *nb_other);
@@ -51,17 +52,26 @@ void get_flags(struct flags_list *flags, int ac, char **av);
 //get_files.c :
 void get_files(struct flags_list *flags, int ac, char **av);
 
-//flag_t.c :
-void flag_t(struct flags_list *flags);
+//get_under_dir.c :
+void get_under_dir(struct flags_list *flags, int ind);
 
 //flag_d.c :
-int flag_d(struct flags_list *flags);
+void flag_d_recognition(struct flags_list *flags);
+
+//flag_t.c :
+void sort_t(struct flags_list *flags);
+void sort_under_dir_t(struct flags_list *flags, int ind);
+void flag_t_recognition(struct flags_list *flags);
+void flag_t_recognition_under_dir(struct flags_list *flags, int i);
 
 //flag_r.c :
-int flag_r(struct flags_list *flags);
+void sort_rev(struct flags_list *flags);
+void sort_rev_under_dir(struct flags_list *flags);
+void flag_r_recognition(struct flags_list *flags);
+void flag_r_recognition_under_dir(struct flags_list *flags);
 
 //flag_l.c :
-int flag_l(struct flags_list *flags);
+void call_flag_l(char *file_path);
 
 //print_total_flag_l.c :
 int print_total_flag_l(char *file_path);
@@ -69,6 +79,11 @@ int print_total_flag_l(char *file_path);
 //printing_flag_l.c :
 void print_permissions(struct stat *lst);
 void print_file_name(char *str);
+
+//sorting.c :
+void sort_file_array(struct flags_list *flags);
+void sort_dir_array(struct flags_list *flags);
+void sort_under_dir_array(struct flags_list *flags);
 
 //printing.c :
 void printing(struct dirent *my_dir, char *file_path);

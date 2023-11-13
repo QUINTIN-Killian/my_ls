@@ -15,58 +15,90 @@ NOTES ET OBJECTIFS :
 #include "include/my.h"
 #include "include/my_ls.h"
 
-int print_files(struct flags_list *flags)
+int print_files(struct flags_list *flags, int ind)
 {
-    for (int i = 0; i < flags->file_name_ind; i++) {
-        my_putstr(flags->file_name[i]);
-        if (i < flags->file_name_ind - 1)
-            my_putstr("  ");
-        if (i == flags->file_name_ind - 1 && flags->dir_name_ind > 0)
-            my_putstr("\n\n");
-    }
+    my_putstr(flags->file_name[ind]);
+    if (ind < flags->file_name_ind - 1)
+        my_putstr("  ");
+    if (ind == flags->file_name_ind - 1 && flags->dir_name_ind > 0)
+        my_putchar('\n');
     return 0;
 }
 
-int print_dir_aux(struct flags_list *flags, DIR *fd,
-    struct dirent *my_dir)
+int print_dir(struct flags_list *flags, int ind)
 {
-    while (my_dir != NULL) {
-        if (my_dir->d_name[0] == '.' && flags->a == 0) {
-            my_dir = readdir(fd);
-            continue;
-        }
-        my_putstr(my_dir->d_name);
-        my_dir = readdir(fd);
-        if (my_dir != NULL)
-            my_putstr("  ");
-    }
-    return 0;
-}
-
-int print_dir(struct flags_list *flags, DIR *fd,
-    struct dirent *my_dir, int i)
-{
-    fd = opendir(flags->dir_name[i]);
+    if (flags->total > 1 && ind != 0)
+        my_putchar('\n');
     if (flags->total > 1) {
-        my_putstr(flags->dir_name[i]);
+        my_putstr(flags->dir_name[ind]);
         my_putstr(":\n");
     }
-    my_dir = readdir(fd);
-    print_dir_aux(flags, fd, my_dir);
-    if (flags->dir_name_ind + flags->file_name_ind > 1 &&
-    i < flags->dir_name_ind - 1)
-        my_putstr("\n\n");
-    closedir(fd);
-    return 0;
+    for (int i = 0; i < my_strlen_array(flags->under_dir_name); i++) {
+        my_putstr(flags->under_dir_name[i]);
+        if (i < my_strlen_array(flags->under_dir_name) - 1)
+            my_putstr("  ");
+    }
+    my_putchar('\n');
 }
 
-int classic_ls(struct flags_list *flags)
+static void if_flag_l(struct flags_list *flags, int i)
+{
+    if (i > 0)
+        my_putchar('\n');
+    my_putstr(flags->dir_name[i]);
+    my_putstr(":\n");
+    print_total_flag_l(flags->dir_name[i]);
+    for (int j = 0; j < flags->under_dir_name_ind; j++)
+        call_flag_l(concat_str(3, flags->dir_name[i], "/",
+        flags->under_dir_name[j]));
+}
+
+static void separator(struct flags_list *flags)
+{
+    if (flags->file_name_ind > 0)
+            my_putchar('\n');
+    if (flags->l && flags->file_name_ind > 0 && flags->dir_name_ind > 0)
+        my_putchar('\n');
+}
+
+static void isolate_files(struct flags_list *flags)
+{
+    for (int i = 0; i < flags->file_name_ind; i++) {
+        if (flags->l) {
+            call_flag_l(flags->file_name[i]);
+            continue;
+        }
+        print_files(flags, i);
+    }
+}
+
+static void isolate_dir(struct flags_list *flags)
+{
+    for (int i = 0; i < flags->dir_name_ind; i++) {
+        get_under_dir(flags, i);
+        sort_under_dir_array(flags);
+        for (int i = 0; i < flags->under_dir_name_ind; i++)
+            printf("%s", flags->under_dir_name[i]);
+        flag_t_recognition_under_dir(flags, i);
+        flag_r_recognition_under_dir(flags);
+        if (flags->l) {
+            if_flag_l(flags, i);
+            continue;
+        }
+        print_dir(flags, i);
+    }
+}
+
+int my_ls(struct flags_list *flags)
 {
     DIR *fd;
     struct dirent *my_dir;
 
-    print_files(flags);
-    for (int i = 0; i < flags->dir_name_ind; i++)
-        print_dir(flags, fd, my_dir, i);
+    flag_d_recognition(flags);
+    flag_t_recognition(flags);
+    flag_r_recognition(flags);
+    isolate_files(flags);
+    separator(flags);
+    isolate_dir(flags);
     return 0;
 }

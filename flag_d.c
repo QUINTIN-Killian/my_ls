@@ -1,25 +1,25 @@
 /*
 ** EPITECH PROJECT, 2023
-** Untitled (Workspace)
+** undefined
 ** File description:
-** d flag functions.
+** contains d flag functions.
 ** flag_d
 */
 
 #include "include/my.h"
 #include "include/my_ls.h"
 
-int flag_d(struct flags_list *flags)
+void d_flag(struct flags_list *flags)
 {
-    for (int i = 0; i < flags->file_name_ind; i++) {
-        my_putstr(flags->file_name[i]);
-        if (i < flags->file_name_ind - 1 || flags->dir_name_ind > 0)
-            my_putstr("  ");
-    }
     for (int i = 0; i < flags->dir_name_ind; i++) {
-        my_putstr(flags->dir_name[i]);
-        if (i < flags->dir_name_ind - 1)
-            my_putstr("  ");
+        flags->file_name[flags->file_name_ind] = flags->dir_name[i];
+        flags->file_name_ind++;
     }
-    return flags->error;
+    flags->dir_name_ind = 0;
+}
+
+void flag_d_recognition(struct flags_list *flags)
+{
+    if (flags->d)
+        d_flag(flags);
 }

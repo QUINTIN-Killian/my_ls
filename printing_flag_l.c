@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2023
 ** undefined
 ** File description:
-** Contains printing functions for flag l.
+** Prints flag l infos
 ** printing_flag_l
 */
 
 #include "include/my.h"
-#include"include/my_ls.h"
+#include "include/my_ls.h"
 
 void print_file_name(char *str)
 {

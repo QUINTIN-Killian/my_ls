@@ -54,5 +54,6 @@ int my_intlen(int n);
 int convert_str_in_int(char *str);
 char *concat_str(int nb_elt, ...);
 int my_parsing(char *format, int ind_start, int ind_end);
+char *my_strndup(char const *src, int n);
 
 #endif

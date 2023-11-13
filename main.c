@@ -5,11 +5,14 @@
 ** Main file.
 ** main
 */
+/*
+Sorting est sensible a la casse => pas le sorting de ls !!!!!
+*/
 
 #include "include/my.h"
 #include "include/my_ls.h"
 
-int initialize_struct(struct flags_list *flags)
+void initialize_struct(struct flags_list *flags)
 {
     flags->a = 0;
     flags->l = 0;
@@ -19,9 +22,9 @@ int initialize_struct(struct flags_list *flags)
     flags->t = 0;
     flags->file_name_ind = 0;
     flags->dir_name_ind = 0;
+    flags->under_dir_name_ind = 0;
     flags->total = 0;
     flags->error = 0;
-    return 0;
 }
 
 int main(int ac, char **av)
@@ -31,15 +34,10 @@ int main(int ac, char **av)
     initialize_struct(&flags);
     get_flags(&flags, ac, av);
     get_files(&flags, ac, av);
-    if (flags.t == 1)
-        flag_t(&flags);
-    if (flags.l == 1)
-        return flag_l(&flags);
-    if (flags.d == 1)
-        return flag_d(&flags);
-    if (flags.r == 1)
-        return flag_r(&flags);
-    if (flags.d == 0 && flags.r == 0 && flags.l == 0)
-        classic_ls(&flags);
+    sort_file_array(&flags);
+    sort_dir_array(&flags);
+    my_ls(&flags);
+    if (flags.under_dir_name_ind > 0)
+        free(flags.under_dir_name);
     return flags.error;
 }
