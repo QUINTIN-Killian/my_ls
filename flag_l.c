@@ -18,12 +18,6 @@ void call_flag_l(char *file_path)
     print_file_name(file_path);
 }
 
-void print_break(struct dirent *my_dir)
-{
-    if (my_dir != NULL)
-        my_putchar('\n');
-}
-
 void flag_l_aux(DIR *fd, struct dirent *my_dir,
     struct flags_list *flags, int i)
 {
@@ -34,7 +28,8 @@ void flag_l_aux(DIR *fd, struct dirent *my_dir,
         }
         call_flag_l(concat_str(3, flags->dir_name[i], "/", my_dir->d_name));
         my_dir = readdir(fd);
-        print_break(my_dir);
+        if (my_dir != NULL)
+            my_putchar('\n');
     }
 }
 
