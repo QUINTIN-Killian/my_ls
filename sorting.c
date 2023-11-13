@@ -13,7 +13,8 @@ static void sort_file(struct flags_list *flags, int ind)
 {
     char *temp;
 
-    if (my_strcmp(flags->file_name[ind], flags->file_name[ind + 1]) > 0) {
+    if (my_strcmp_sans_casse(flags->file_name[ind],
+    flags->file_name[ind + 1]) > 0) {
         temp = flags->file_name[ind];
         flags->file_name[ind] = flags->file_name[ind + 1];
         flags->file_name[ind + 1] = temp;
@@ -31,7 +32,8 @@ static void sort_dir(struct flags_list *flags, int ind)
 {
     char *temp;
 
-    if (my_strcmp(flags->dir_name[ind], flags->dir_name[ind + 1]) > 0) {
+    if (my_strcmp_sans_casse(flags->dir_name[ind],
+    flags->dir_name[ind + 1]) > 0) {
         temp = flags->dir_name[ind];
         flags->dir_name[ind] = flags->dir_name[ind + 1];
         flags->dir_name[ind + 1] = temp;
@@ -49,7 +51,7 @@ static void sort_under_dir(struct flags_list *flags, int ind)
 {
     char *temp;
 
-    if (my_strcmp(flags->under_dir_name[ind],
+    if (my_strcmp_sans_casse(flags->under_dir_name[ind],
     flags->under_dir_name[ind + 1]) > 0) {
         temp = flags->under_dir_name[ind];
         flags->under_dir_name[ind] = flags->under_dir_name[ind + 1];

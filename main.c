@@ -34,8 +34,6 @@ int main(int ac, char **av)
     initialize_struct(&flags);
     get_flags(&flags, ac, av);
     get_files(&flags, ac, av);
-    sort_file_array(&flags);
-    sort_dir_array(&flags);
     my_ls(&flags);
     if (flags.under_dir_name_ind > 0)
         free(flags.under_dir_name);

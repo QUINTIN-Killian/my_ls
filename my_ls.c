@@ -76,9 +76,6 @@ static void isolate_dir(struct flags_list *flags)
 {
     for (int i = 0; i < flags->dir_name_ind; i++) {
         get_under_dir(flags, i);
-        sort_under_dir_array(flags);
-        for (int i = 0; i < flags->under_dir_name_ind; i++)
-            printf("%s", flags->under_dir_name[i]);
         flag_t_recognition_under_dir(flags, i);
         flag_r_recognition_under_dir(flags);
         if (flags->l) {
