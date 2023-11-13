@@ -31,6 +31,8 @@ int main(int ac, char **av)
     initialize_struct(&flags);
     get_flags(&flags, ac, av);
     get_files(&flags, ac, av);
+    if (flags.t == 1)
+        flag_t(&flags);
     if (flags.l == 1)
         return flag_l(&flags);
     if (flags.d == 1)

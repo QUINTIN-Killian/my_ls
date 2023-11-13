@@ -51,6 +51,9 @@ void get_flags(struct flags_list *flags, int ac, char **av);
 //get_files.c :
 void get_files(struct flags_list *flags, int ac, char **av);
 
+//flag_t.c :
+void flag_t(struct flags_list *flags);
+
 //flag_d.c :
 int flag_d(struct flags_list *flags);
 
