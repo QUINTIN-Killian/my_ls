@@ -52,11 +52,15 @@ int get_nb_other(int ac, char **av)
 {
     struct stat lst;
     int ans = 0;
+    DIR *fd;
 
-    for (int i = 1; i < ac; i++)
-        if (opendir(av[i]) == NULL &&
+    for (int i = 1; i < ac; i++) {
+        fd = opendir(av[i]);
+        if (fd == NULL &&
         lstat(av[i], &lst) != 0 && av[i][0] != '-')
             ans++;
+        closedir(fd);
+    }
     return ans;
 }
 

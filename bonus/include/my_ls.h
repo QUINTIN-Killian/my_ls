@@ -34,6 +34,9 @@ struct flags_list {
     int error;
 };
 
+//main.c :
+void free_under_dir(struct flags_list *flags);
+
 //my_ls.c :
 int my_ls(struct flags_list *flags);
 int print_files(struct flags_list *flags, int ind);
