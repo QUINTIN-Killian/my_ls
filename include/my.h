@@ -6,7 +6,7 @@
 ** functions
 */
 
-//#include <stdio.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,6 +55,5 @@ int convert_str_in_int(char *str);
 char *concat_str(int nb_elt, ...);
 int my_parsing(char *format, int ind_start, int ind_end);
 char *my_strndup(char const *src, int n);
-int my_strcmp_sans_casse(char const *s1, char const *s2);
 
 #endif

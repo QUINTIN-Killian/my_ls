@@ -45,8 +45,10 @@ static void if_flag_l(struct flags_list *flags, int i)
 {
     if (i > 0)
         my_putchar('\n');
-    my_putstr(flags->dir_name[i]);
-    my_putstr(":\n");
+    if (flags->total > 1) {
+        my_putstr(flags->dir_name[i]);
+        my_putstr(":\n");
+    }
     print_total_flag_l(flags->dir_name[i]);
     for (int j = 0; j < flags->under_dir_name_ind; j++)
         call_flag_l(concat_str(3, flags->dir_name[i], "/",
@@ -55,8 +57,8 @@ static void if_flag_l(struct flags_list *flags, int i)
 
 static void separator(struct flags_list *flags)
 {
-    if (flags->file_name_ind > 0)
-            my_putchar('\n');
+    if (!flags->l && flags->file_name_ind > 0)
+        my_putchar('\n');
     if (flags->l && flags->file_name_ind > 0 && flags->dir_name_ind > 0)
         my_putchar('\n');
 }
@@ -76,6 +78,7 @@ static void isolate_dir(struct flags_list *flags)
 {
     for (int i = 0; i < flags->dir_name_ind; i++) {
         get_under_dir(flags, i);
+        sort_under_dir_array(flags);
         flag_t_recognition_under_dir(flags, i);
         flag_r_recognition_under_dir(flags);
         if (flags->l) {

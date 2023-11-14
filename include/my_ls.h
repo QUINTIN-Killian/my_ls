@@ -42,7 +42,8 @@ int print_dir(struct flags_list *flags, int ind);
 //error_handling.c :
 int error_opening(char *file_path, int *nb_other);
 
-//aux.c :
+//aux_functions.c :
+int my_strcmp_ls(char const *s1, char const *s2);
 int get_nb_other(int ac, char **av);
 int is_flag(char *str);
 
