@@ -44,7 +44,7 @@ int print_dir(struct flags_list *flags, int ind)
 static void if_flag_l(struct flags_list *flags, int i)
 {
     if (i > 0)
-        my_putchar('\n');
+        my_putstr("\n\n");
     if (flags->total > 1) {
         my_putstr(flags->dir_name[i]);
         my_putstr(":\n");
