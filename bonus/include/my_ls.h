@@ -75,7 +75,7 @@ void flag_r_recognition(struct flags_list *flags);
 void flag_r_recognition_under_dir(struct flags_list *flags);
 
 //flag_l.c :
-void call_flag_l(char *file_path);
+void call_flag_l(char *file_path, struct flags_list *flags);
 
 //print_total_flag_l.c :
 int print_total_flag_l(char *file_path);
@@ -88,8 +88,5 @@ void print_file_name(char *str);
 void sort_file_array(struct flags_list *flags);
 void sort_dir_array(struct flags_list *flags);
 void sort_under_dir_array(struct flags_list *flags);
-
-//printing.c :
-void printing(struct dirent *my_dir, char *file_path);
 
 #endif

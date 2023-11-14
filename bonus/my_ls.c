@@ -52,7 +52,7 @@ static void if_flag_l(struct flags_list *flags, int i)
     print_total_flag_l(flags->dir_name[i]);
     for (int j = 0; j < flags->under_dir_name_ind; j++)
         call_flag_l(concat_str(3, flags->dir_name[i], "/",
-        flags->under_dir_name[j]));
+        flags->under_dir_name[j]), flags);
 }
 
 static void separator(struct flags_list *flags)
@@ -67,7 +67,7 @@ static void isolate_files(struct flags_list *flags)
 {
     for (int i = 0; i < flags->file_name_ind; i++) {
         if (flags->l) {
-            call_flag_l(flags->file_name[i]);
+            call_flag_l(flags->file_name[i], flags);
             continue;
         }
         print_files(flags, i);

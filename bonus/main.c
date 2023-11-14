@@ -27,6 +27,14 @@ void initialize_struct(struct flags_list *flags)
     flags->error = 0;
 }
 
+void free_under_dir(struct flags_list *flags)
+{
+    for (int i = 0; i < flags->under_dir_name_ind; i++)
+        free(flags->under_dir_name[i]);
+    if (flags->under_dir_name_ind > 0)
+        free(flags->under_dir_name);
+}
+
 int main(int ac, char **av)
 {
     struct flags_list flags;
@@ -37,7 +45,6 @@ int main(int ac, char **av)
     sort_file_array(&flags);
     sort_dir_array(&flags);
     my_ls(&flags);
-    if (flags.under_dir_name_ind > 0)
-        free(flags.under_dir_name);
+    free_under_dir(&flags);
     return flags.error;
 }

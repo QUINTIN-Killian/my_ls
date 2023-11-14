@@ -84,12 +84,4 @@ int print_total_flag_l(char *file_path);
 void print_permissions(struct stat *lst);
 void print_file_name(char *str);
 
-//sorting.c :
-void sort_file_array(struct flags_list *flags);
-void sort_dir_array(struct flags_list *flags);
-void sort_under_dir_array(struct flags_list *flags);
-
-//printing.c :
-void printing(struct dirent *my_dir, char *file_path);
-
 #endif
