@@ -11,17 +11,17 @@
 
 void printing(struct dirent *my_dir, char *file_path)
 {
-    struct stat st;
+    struct stat lst;
 
-    lstat(file_path, &st);
-    if (!S_ISDIR(st.st_mode) && !S_ISLNK(st.st_mode))
+    lstat(file_path, &lst);
+    if (!S_ISDIR(lst.st_mode) && !S_ISLNK(lst.st_mode))
         my_putstr(my_dir->d_name);
-    if (S_ISDIR(st.st_mode)) {
+    if (S_ISDIR(lst.st_mode)) {
         my_putstr("\033[34;01m");
         my_putstr(my_dir->d_name);
         my_putstr("\033[00m");
     }
-    if (S_ISLNK(st.st_mode)) {
+    if (lst.st_mode & S_IXUSR) {
         my_putstr("\033[92;01m");
         my_putstr(my_dir->d_name);
         my_putstr("\033[00m");
