@@ -19,7 +19,8 @@ static void re_malloc_array(struct flags_list *flags)
     for (int i = 0; i < flags->file_name_ind; i++)
         free(flags->file_name[i]);
     free(flags->file_name);
-    flags->file_name = malloc(sizeof(char *) * (flags->file_name_ind + flags->dir_name_ind + 1));
+    flags->file_name = malloc(sizeof(char *) *
+    (flags->file_name_ind + flags->dir_name_ind + 1));
     for (int i = 0; i < flags->file_name_ind; i++)
         flags->file_name[i] = my_strdup(buff[i]);
     for (int i = 0; i < flags->file_name_ind; i++)
