@@ -35,6 +35,16 @@ void free_under_dir(struct flags_list *flags)
         free(flags->under_dir_name);
 }
 
+void free_arrays_flag(struct flags_list *flags)
+{
+    for (int i = 0; i < flags->file_name_ind; i++)
+        free(flags->file_name[i]);
+    free(flags->file_name);
+    for (int i = 0; i < flags->dir_name_ind; i++)
+        free(flags->dir_name[i]);
+    free(flags->dir_name);
+}
+
 int main(int ac, char **av)
 {
     struct flags_list flags;
@@ -46,5 +56,6 @@ int main(int ac, char **av)
     sort_dir_array(&flags);
     my_ls(&flags);
     free_under_dir(&flags);
+    free_arrays_flag(&flags);
     return flags.error;
 }

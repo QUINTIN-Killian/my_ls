@@ -24,9 +24,9 @@ struct flags_list {
     int d;
     int r;
     int t;
-    char *file_name[4000];
+    char **file_name;
     int file_name_ind;
-    char *dir_name[4000];
+    char **dir_name;
     int dir_name_ind;
     char **under_dir_name;
     int under_dir_name_ind;

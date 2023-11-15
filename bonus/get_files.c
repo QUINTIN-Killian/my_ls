@@ -9,6 +9,45 @@
 #include "include/my.h"
 #include "include/my_ls.h"
 
+static int get_nb_files(int ac, char **av)
+{
+    struct stat lst;
+    DIR *fd;
+    int ans = 0;
+
+    for (int i = 1; i < ac; i++) {
+        fd = opendir(av[i]);
+        if (fd == NULL && lstat(av[i], &lst) == 0)
+            ans++;
+        closedir(fd);
+    }
+    return ans;
+}
+
+static int get_nb_dir(int ac, char **av)
+{
+    struct stat lst;
+    DIR *fd;
+    int ans = 0;
+
+    for (int i = 1; i < ac; i++) {
+        fd = opendir(av[i]);
+        if (fd != NULL)
+            ans++;
+        closedir(fd);
+    }
+    return ans;
+}
+
+static void set_struct(struct flags_list *flags)
+{
+    flags->total = flags->total + flags->file_name_ind + flags->dir_name_ind;
+    if (flags->total == 0) {
+        flags->dir_name[flags->dir_name_ind] = my_strdup(".");
+        flags->dir_name_ind = flags->dir_name_ind + 1;
+    }
+}
+
 int get_files_aux(struct flags_list *flags, int i, int ac, char **av)
 {
     struct stat lst;
@@ -16,13 +55,11 @@ int get_files_aux(struct flags_list *flags, int i, int ac, char **av)
 
     fd = opendir(av[i]);
     if (fd == NULL && lstat(av[i], &lst) == 0) {
-        flags->file_name[flags->file_name_ind] = av[i];
+        flags->file_name[flags->file_name_ind] = my_strdup(av[i]);
         flags->file_name_ind = flags->file_name_ind + 1;
     }
-    closedir(fd);
-    fd = opendir(av[i]);
     if (fd != NULL) {
-        flags->dir_name[flags->dir_name_ind] = av[i];
+        flags->dir_name[flags->dir_name_ind] = my_strdup(av[i]);
         flags->dir_name_ind = flags->dir_name_ind + 1;
     }
     closedir(fd);
@@ -34,6 +71,10 @@ void get_files(struct flags_list *flags, int ac, char **av)
     int nb_other = get_nb_other(ac, av);
     DIR *fd;
 
+    flags->file_name = malloc(sizeof(char *) * (get_nb_files(ac, av) + 1));
+    flags->dir_name = malloc(sizeof(char *) * (get_nb_dir(ac, av) + 1));
+    flags->file_name[get_nb_files(ac, av)] = NULL;
+    flags->dir_name[get_nb_dir(ac, av)] = NULL;
     for (int i = 1; i < ac; i++) {
         fd = opendir(av[i]);
         if (fd == NULL &&
@@ -45,9 +86,5 @@ void get_files(struct flags_list *flags, int ac, char **av)
         closedir(fd);
         get_files_aux(flags, i, ac, av);
     }
-    flags->total = flags->total + flags->file_name_ind + flags->dir_name_ind;
-    if (flags->total == 0) {
-        flags->dir_name[flags->dir_name_ind] = ".";
-        flags->dir_name_ind = flags->dir_name_ind + 1;
-    }
+    set_struct(flags);
 }

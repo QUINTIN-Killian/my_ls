@@ -9,12 +9,6 @@
 #include "include/my.h"
 #include "include/my_ls.h"
 
-static void free_str(char *str1, char *str2)
-{
-    free(str1);
-    free(str2);
-}
-
 static char *change_s1(char *s1)
 {
     for (int i = 0; i < my_strlen(s1); i++)
@@ -31,20 +25,16 @@ static char *change_s2(char *s2)
     return s2;
 }
 
-static int get_max(int a, int b)
+int my_strcmp_ls(char const *s1, char const *s2)
 {
-    if (a < b)
-        return b;
-    else
-        return a;
-}
+    int len_s1 = my_strlen(s1);
+    int len_s2 = my_strlen(s2);
+    int len = len_s1;
+    char *dup_s1 = change_s1(my_strdup(s1));
+    char *dup_s2 = change_s2(my_strdup(s2));
 
-static int my_strcmp_ls_aux(char *dup_s1, char *dup_s2)
-{
-    int len_s1 = my_strlen(dup_s1);
-    int len_s2 = my_strlen(dup_s2);
-    int len = get_max(len_s1, len_s2);
-
+    if (len_s1 < len_s2)
+        len = len_s2;
     for (int i = 0; i < len; i++) {
         if (i >= len_s1 && i < len_s2)
             return -1;
@@ -56,17 +46,6 @@ static int my_strcmp_ls_aux(char *dup_s1, char *dup_s2)
             return 1;
     }
     return 0;
-}
-
-int my_strcmp_ls(char const *s1, char const *s2)
-{
-    char *dup_s1 = change_s1(my_strdup(s1));
-    char *dup_s2 = change_s2(my_strdup(s2));
-    int ans = my_strcmp_ls_aux(dup_s1, dup_s2);
-
-    free(dup_s1);
-    free(dup_s2);
-    return ans;
 }
 
 int get_nb_other(int ac, char **av)
