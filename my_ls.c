@@ -28,7 +28,7 @@ int print_files(struct flags_list *flags, int ind)
 int print_dir(struct flags_list *flags, int ind)
 {
     if (flags->total > 1 && ind != 0)
-        my_putchar('\n');
+        my_putstr("\n\n");
     if (flags->total > 1) {
         my_putstr(flags->dir_name[ind]);
         my_putstr(":\n");
