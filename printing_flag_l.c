@@ -121,6 +121,6 @@ void print_permissions(struct stat *lst)
     print_user_permissions(lst);
     print_group_permissions(lst);
     print_other_permissions(lst);
-    my_putstr(". ");
+    my_putchar(' ');
     print_nb_hard_link(lst);
 }
