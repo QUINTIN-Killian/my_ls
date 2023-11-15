@@ -60,6 +60,7 @@ static void inv_under_dir(struct flags_list *flags, int j, int ind)
     lstat(concat_str(3, flags->dir_name[ind], "/",
     flags->under_dir_name[j + 1]), &lst2);
     if (lst2.st_mtime >= lst1.st_mtime) {
+        printf("(%d, %d)\n", lst1.st_mtime, lst2.st_mtime);
         temp = flags->under_dir_name[j];
         flags->under_dir_name[j] = flags->under_dir_name[j + 1];
         flags->under_dir_name[j + 1] = temp;
