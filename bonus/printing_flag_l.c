@@ -46,13 +46,13 @@ void print_size(struct stat *lst)
 static void print_usr_and_grp(struct stat *lst)
 {
     struct passwd *u_pwd;
-    struct passwd *g_pwd;
+    struct group *gid;
 
     u_pwd = getpwuid(lst->st_uid);
-    g_pwd = getpwuid(lst->st_gid);
+    gid = getpwuid(lst->st_gid);
     my_putstr(u_pwd->pw_name);
     my_putchar(' ');
-    my_putstr(g_pwd->pw_name);
+    my_putstr(gid->gr_name);
     my_putchar(' ');
     print_size(lst);
 }
