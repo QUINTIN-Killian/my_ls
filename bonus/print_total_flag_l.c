@@ -9,7 +9,7 @@
 #include "include/my.h"
 #include "include/my_ls.h"
 
-int print_total_flag_l(char *file_path)
+int print_total_flag_l(char *file_path, struct flags_list *flags)
 {
     int n = 0;
     struct stat lst;
@@ -19,6 +19,10 @@ int print_total_flag_l(char *file_path)
     fd = opendir(file_path);
     my_dir = readdir(fd);
     while (my_dir != NULL) {
+        if (my_dir->d_name[0] == '.' && !flags->a) {
+            my_dir = readdir(fd);
+            continue;
+        }
         lstat(concat_str(3, file_path, "/", my_dir->d_name), &lst);
         n += lst.st_blocks;
         my_dir = readdir(fd);

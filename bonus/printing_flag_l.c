@@ -49,7 +49,7 @@ static void print_usr_and_grp(struct stat *lst)
     struct group *gid;
 
     u_pwd = getpwuid(lst->st_uid);
-    gid = getpwuid(lst->st_gid);
+    gid = getgrgid(lst->st_gid);
     my_putstr(u_pwd->pw_name);
     my_putchar(' ');
     my_putstr(gid->gr_name);

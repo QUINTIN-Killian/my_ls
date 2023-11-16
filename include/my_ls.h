@@ -79,7 +79,7 @@ void flag_r_recognition_under_dir(struct flags_list *flags);
 void call_flag_l(char *file_path, struct flags_list *flags);
 
 //print_total_flag_l.c :
-int print_total_flag_l(char *file_path);
+int print_total_flag_l(char *file_path, struct flags_list *flags);
 
 //printing_flag_l.c :
 void print_permissions(struct stat *lst);

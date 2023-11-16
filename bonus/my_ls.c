@@ -49,7 +49,7 @@ static void if_flag_l(struct flags_list *flags, int i)
         my_putstr(flags->dir_name[i]);
         my_putstr(":\n");
     }
-    print_total_flag_l(flags->dir_name[i]);
+    print_total_flag_l(flags->dir_name[i], flags);
     for (int j = 0; j < flags->under_dir_name_ind; j++)
         call_flag_l(concat_str(3, flags->dir_name[i], "/",
         flags->under_dir_name[j]), flags);
