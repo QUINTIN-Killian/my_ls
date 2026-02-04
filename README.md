@@ -1,12 +1,20 @@
 # my_ls
 
-This projects consists of recreating the Linux ls binary.
+A low-level C implementation of the Linux ls utility designed to interface directly with the file system to retrieve and format directory metadata.
 
 ---
 
 ## 🧠 Description
 
-Does the same as ls binary including -a, -l, -r, -t, -d flags.
+This project replicates the core functionality of the ls binary by utilizing POSIX system calls to read directory streams and extract file attributes. Developed in C, it focuses on memory efficiency and precise data parsing from the underlying filesystem structures.
+
+Implemented flags:
+
+* -a (All): Displays hidden files by including entries starting with a dot (.).
+* -d (Directory): Lists directories themselves rather than their contents.
+* -l (Long listing): Displays detailed metadata including permissions, owner, size, and modification timestamp.
+* -t (Time): Sorts the output based on the last modification time instead of alphabetical order.
+* -r (Reverse): Reverses the sorting order of the output.
 
 ---
 
@@ -32,7 +40,13 @@ make
 **Executing:**
 
 ```bash
-./my_ls
+./my_ls [-a] [-l] [-r] [-d] [-t]
+```
+
+Example:
+
+```bash
+./my_ls -l /usr/
 ```
 
 ---
